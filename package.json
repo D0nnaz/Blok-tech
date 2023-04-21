@@ -1,0 +1,26 @@
+{
+  "name": "chatlingo",
+  "version": "1.0.0",
+  "description": "A matching app for learning a new language",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "serve": "PORT=3000 node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "keywords": [
+    "matching",
+    "app",
+    "node",
+    "express"
+  ],
+  "author": "Donna",
+  "license": "MIT"
+}
