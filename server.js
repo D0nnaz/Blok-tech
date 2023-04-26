@@ -20,10 +20,9 @@ app.get('/chat', function(req, res) {
 });
 
 app.use(function(req, res, next) {
-  res.status(404).send('404 Not Found :(');
+  res.status(404).render('404', { title: '404 Not Found :(' });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`)
 });
-
