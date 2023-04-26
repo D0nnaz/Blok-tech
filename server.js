@@ -1,21 +1,29 @@
 const express = require('express');
+const { engine } = require('express-handlebars');
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
+app.use('/static', express.static('static'));
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+
 app.get('/', function(req, res) {
-  res.send('Welkom op de homepage!');
+  res.render('home', { title: 'Homepage' });
 });
 
-
 app.get('/chat', function(req, res) {
-  res.send('Dit is een chat');
+  res.render('chat', { title: 'Chatpage' });
 });
 
 app.use(function(req, res, next) {
   res.status(404).send('404 Not Found :(');
 });
 
-app.use(express.static('static'));
-
-app.listen(3000, function() {
-  console.log('Server started on port 3000');
+app.listen(PORT, () => {
+  console.log(`Server running on port: ${PORT}`)
 });
+

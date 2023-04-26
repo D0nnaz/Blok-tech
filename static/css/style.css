@@ -112,3 +112,207 @@ h2 {
 .chat-last-message {
   color: #a86246;
 }
+
+
+
+
+.inchat {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #140702;
+}
+
+.inchat header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+background-color: #fff7df;
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 10;
+height: 12em;
+}
+
+.inchat .profile {
+display: flex;
+align-items: center;
+position: relative;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+overflow: hidden;
+}
+
+.inchat .profile img{
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.inchat .profile p {
+margin-left: 10px;
+color: red;
+}
+
+.inchat .status {
+width: 20px;
+height: 20px;
+margin-left: 5px;
+}
+
+
+
+.inchat .profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-image: url('profile-pic.png');
+  background-size: cover;
+  margin-right: 10px;
+}
+
+.inchat .profile-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.inchat .chats {
+background-color: #140702;
+border-radius: 50px 50px 0 0;
+position: relative;
+z-index: 10;
+overflow: hidden;
+transform: translateY(10.5em);
+}
+
+.inchat .chat-box {
+border-radius: 10px;
+margin: 20px;
+padding: 20px;
+height: fit-content;
+display: flex;
+flex-direction: column;
+position: relative;
+top:2em;
+overflow-y: scroll;
+padding-bottom: 8em;
+}
+
+
+.inchat .chat-bubble {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  top: 80px;
+  max-width: 70%;
+}
+
+.inchat .left-bubble {
+  align-self: flex-start;
+  background-color:  #fff7df;
+}
+
+.inchat .right-bubble {
+  align-self: flex-end;
+  background-color: #a86246;
+  color: #fff7df;
+}
+
+
+.inchat .input-bar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px;
+border-top: 1px solid #ccc;
+width: 100%;
+height: 5em;
+position: fixed;
+bottom: 0;
+left: 0;
+z-index: 20;
+background-color:  #fff7df;
+}
+
+.inchat .input-field {
+flex: 1;
+margin: 0 10px;
+padding: 10px;
+border: none;
+border-radius: 20px;
+background-color: transparent;
+font-size: 16px;
+outline: none;
+}
+
+.inchat .send-button {
+background-color:  #140702;
+color: #fff;
+border: none;
+padding: 10px 20px;
+border-radius: 20px;
+font-size: 16px;
+cursor: pointer;
+margin-right: 1.5em;
+}
+
+.inchat .emoji {
+font-size: 24px;
+margin-right: 10px;
+border: none;
+background-color: transparent;
+cursor: pointer;
+}
+
+
+.inchat .profile-status-container{
+display: flex;
+flex-direction: column;
+flex-wrap: wrap;
+align-content: center;
+justify-content: center;
+align-items: center;
+width: 100%;
+}
+
+.inchat .profile-status-container p{
+color: #140702;
+font-size: 1em;
+}
+
+
+.inchat .profile-picture-container {
+position: relative;
+width: 70px;
+height: 70px;
+border-radius: 50%;
+overflow: hidden;
+}
+
+.inchat .profile-picture-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.inchat .status-indicator {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background-color: #74a847;
+position: relative;
+z-index: 2;
+outline: 3px solid #fff7df;
+opacity: 0.8;
+}
+
+.inchat .back {
+position: absolute;
+left: 20px;
+cursor: pointer;
+}
