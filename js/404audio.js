@@ -1,4 +1,7 @@
-const audio = document.getElementById("myAudio");
-audio.onloadedmetadata = function() {
-audio.play();
-};
+window.onload = function() {
+    const audio = document.getElementById("hello-audio");
+    audio.onloadedmetadata = function() {
+      audio.play();
+    };
+  };
+  
