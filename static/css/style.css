@@ -22,6 +22,10 @@ h2 {
   margin-bottom: -1em;
 }
 
+a{
+  text-decoration: none;
+}
+
 .header-right img {
   width: 70px;
   height: 70px;
@@ -46,6 +50,7 @@ h2 {
 #chatone {
   margin-top: 7em;
 }
+
 .chat {
   display: flex;
 }
@@ -342,17 +347,12 @@ cursor: pointer;
   background-position: center;
 }
 
-.title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 .hello h1 {
   font-size: 10em;
   margin-bottom: -10px;
   color: #fff;
+  z-index: 1;
 }
 
 .hello p {
@@ -360,9 +360,10 @@ cursor: pointer;
   color: #fff;
   font-style: italic;
   font-family: 'Tinos', serif;
+  z-index: 1;
 }
 
-.hello button {
+.hello a {
   font-family: 'Nunito', sans-serif;
   font-weight: 500;
   border: 2px solid white;
@@ -373,11 +374,57 @@ cursor: pointer;
   font-size: 18px;
   margin-top: 7em;
   transition: background-color 0.3s, color 0.3s;
+  z-index: 1;
+  text-decoration: none;
 }
-
-.hello button:hover {
+.hello a:hover {
   background-color: white;
   color: black;
   cursor: pointer;
+  z-index: 1;
 }
 
+.hello #click-me {
+  position: absolute;
+  bottom: 0;
+  right: 0;  
+  width: 55%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  z-index: 0;
+  cursor: pointer;
+}
+
+.hello h2{
+  max-width: 4em;
+  font-family: 'Bebas Neue', sans-serif;
+  margin-top: -2em;
+  transform:translate(-100%, -30%);
+  opacity: 0.5;
+  color:#a86246;
+  font-size: 4em;
+}
+
+
+@media (max-width: 1000px) {
+  .hello h1 {
+    font-size: 15em;
+    margin-bottom: -10px;
+    color: #fff;
+    z-index: 1;
+  }
+  
+  .hello p {
+    font-size: 40px;
+    color: #fff;
+    font-style: italic;
+    font-family: 'Tinos', serif;
+    z-index: 1;
+  }
+  
+  .hello button {
+    font-size: 40px;
+  }
+}
