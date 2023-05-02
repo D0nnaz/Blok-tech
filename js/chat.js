@@ -1,10 +1,9 @@
-console.log("test chat.js")
+//chat.js
 const backButton = document.querySelector('.back-arrow');
 const inputField = document.querySelector('.input-field');
 const sendButton = document.querySelector('.send-button');
 const chatBox = document.querySelector('.chat-box');
 const messageInput = document.getElementById('message-input');
-const emojiButton = document.querySelector('.emoji');
 
 const socket = io();
 
@@ -14,16 +13,11 @@ socket.on('connect', function() {
 
 socket.on('message', function(data) {
   const newChatBubble = document.createElement('div');
-  newChatBubble.classList.add('chat-bubble', 'left-bubble');
-  newChatBubble.textContent = data;
+  newChatBubble.classList.add('chat-bubble');
+  newChatBubble.classList.add(getMessageClass(data.sender));
 
+  newChatBubble.textContent = data.content;
   chatBox.appendChild(newChatBubble);
-});
-
-emojiButton.addEventListener('click', () => {
-  inputField.focus();
-  inputField.setAttribute('type', 'text');
-  inputField.setAttribute('type', 'emoji');
 });
 
 inputField.addEventListener('keypress', function(e) {
@@ -32,20 +26,18 @@ inputField.addEventListener('keypress', function(e) {
   }
 });
 
-sendButton.addEventListener('click', function() {
-  sendMessage();
-});
-
 function sendMessage() {
   const messageContent = inputField.value;
-
-  const newChatBubble = document.createElement('div');
-  newChatBubble.classList.add('chat-bubble', 'right-bubble');
-  newChatBubble.textContent = messageContent;
-
-  chatBox.appendChild(newChatBubble);
-
   inputField.value = '';
 
-  socket.emit('message', messageContent);
+  socket.emit('message', { content: messageContent, sender: socket.id });
+}
+
+function getMessageClass(sender) {
+  console.log(socket.id);
+  if (sender === socket.id) {
+    return 'right-bubble';
+  } else {
+    return 'left-bubble';
+  }
 }
