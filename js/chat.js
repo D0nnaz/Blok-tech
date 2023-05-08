@@ -1,10 +1,7 @@
 //chat.js
-const backButton = document.querySelector('.back-arrow');
 const inputField = document.querySelector('.input-field');
 const sendButton = document.querySelector('.send-button');
 const chatBox = document.querySelector('.chat-box');
-const messageInput = document.getElementById('message-input');
-
 const socket = io();
 
 socket.on('connect', function() {
@@ -19,6 +16,8 @@ socket.on('message', function(data) {
   newChatBubble.textContent = data.content;
   chatBox.appendChild(newChatBubble);
 });
+
+sendButton.addEventListener('click', sendMessage);          
 
 inputField.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {

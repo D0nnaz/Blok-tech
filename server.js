@@ -4,6 +4,20 @@ const { engine } = require('express-handlebars');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 3000;
+const os = require('os'); //NIET MIJN CODE GAAT LATER WEG
+
+const interfaces = os.networkInterfaces();//NIET MIJN CODE
+const addresses = [];//NIET MIJN CODE
+
+Object.keys(interfaces).forEach((interfaceName) => {//NIET MIJN CODE
+  interfaces[interfaceName].forEach((interfaceInfo) => {//NIET MIJN CODE
+    if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {//NIET MIJN CODE
+      addresses.push(interfaceInfo.address);//NIET MIJN CODE
+    }//NIET MIJN CODE
+  });//NIET MIJN CODE
+});
+
+console.log(`Server IP address: ${addresses[0]}`); //NIET MIJN CODE EINDE
 
 app.use('/static', express.static('static'));
 app.use('/js', express.static('js'));
@@ -24,7 +38,7 @@ app.get('/chat', function(req, res) {
   });
 });
 
-app.use(function(req, res, next) {
+app.use(function(req, res) {
   res.status(404).render('404', { title: '404 Not Found :(' });
 });
 
@@ -48,6 +62,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(PORT, () => { 
-  console.log(`Server running on port: ${PORT}`)
+http.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port: ${PORT}`);
 });
