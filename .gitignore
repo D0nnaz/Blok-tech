@@ -12,3 +12,5 @@ logs/
 *.log
 
 # Ignore .DS_Store
+
+# Ignore .env

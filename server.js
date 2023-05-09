@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 //server.js
 const express = require('express');
 const app = express();
@@ -29,6 +30,10 @@ app.set('views', './views');
 
 app.get('/', function(req, res) {
   res.render('home', { title: 'Homepage' });
+});
+
+app.get('/login', function(req, res) {
+  res.render('login', { title: 'login' });
 });
 
 app.get('/chat', function(req, res) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <form id="login-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br>
+      <input type="submit" value="Login">
+    </form>
+    <script>
+      //login.handlebars
+      const users = [
+        { username: "Deniz", password: "1234"},
+        { username: "Mila", password: "1234"},
+        { username: "Mohini", password: "1234"},
+        { username: "Nina", password: "1234" },
+        { username: "Ivo", password: "1234"},
+      ];
+      
+      const loginForm = document.getElementById("login-form");
+      loginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const username = loginForm.elements.username.value;
+        const password = loginForm.elements.password.value;
+        const user = users.find(user => user.username === username && user.password === password);
+        if (user) {
+          window.location.href = `chat.html?room=${user.room}&username=${user.username}`;
+        } else {
+          alert("Invalid username or password");
+        }
+      });
+    </script>
+  </body>
+</html>
