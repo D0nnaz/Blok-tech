@@ -1,41 +1,53 @@
-{{!-- chat.handlebars --}}
+{{! chat.handlebars }}
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Chats page</title>
-  <link rel="stylesheet" href="/static/css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chats page</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+  </head>
 
-<body class="inchat">
-  <header>
-    <div class="profile-status-container">
-      <a class="back">Back</a>
-      <div class="status-indicator"></div>
-      <div class="profile-picture-container">
-        <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
+  <body class="inchat">
+    <header>
+      <div class="profile-status-container">
+        <a href="/" class="back">← Back</a>
+        <div class="status-indicator"></div>
+        <div class="profile-picture-container">
+          <img
+            src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png"
+            alt="Profile Picture"
+          />
+        </div>
+        <p>Deniz</p>
       </div>
-      <p>Deniz</p>
+    </header>
+    <div class="chat-box">
+      {{#each messages}}
+        {{#if isRightBubble this}}
+          <div class="chat-bubble right-bubble">{{this.content}}</div>
+        {{else}}
+          <div class="chat-bubble left-bubble">{{this.content}}</div>
+        {{/if}}
+      {{/each}}
     </div>
-  </header>
 
-  <div class="chat-box">
-    {{#each messages}}
-      {{#if isRightBubble this}}
-        <div class="chat-bubble right-bubble">{{this.content}}</div>
-      {{else}}
-        <div class="chat-bubble left-bubble">{{this.content}}</div>
-      {{/if}}
-    {{/each}}
-  </div>
+    <div class="input-bar">
+      <button class="emoji">🤠</button>
+      <input
+        type="text"
+        class="input-field"
+        id="message-input"
+        placeholder="Type a message..."
+        aria-label="Type hier uw bericht"
+      />
+      <button class="send-button">Send</button>
+    </div>
 
-  <div class="input-bar">
-    <button class="emoji">🤠</button>
-    <input type="text" class="input-field" id="message-input" placeholder="Type a message..." aria-label="Type hier uw bericht">
-    <button class="send-button">Send</button>
-  </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/chat.js"></script>
-</body>
+  </body>
 </html>

@@ -1,73 +1,78 @@
-/* eslint-disable quotes */
-//server.js
-const express = require('express');
+const express = require("express");
 const app = express();
-const { engine } = require('express-handlebars');
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const { engine } = require("express-handlebars");
+const { MongoClient } = require("mongodb");
+const { MONGO_URI } = require("./.env");
+const client = new MongoClient(MONGO_URI);
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 const PORT = process.env.PORT || 3000;
-const os = require('os'); //NIET MIJN CODE GAAT LATER WEG
+const chats = require("./js/home.js");
 
-const interfaces = os.networkInterfaces();//NIET MIJN CODE
-const addresses = [];//NIET MIJN CODE
+app.use("/static", express.static("static"));
+app.use("/js", express.static("js"));
 
-Object.keys(interfaces).forEach((interfaceName) => {//NIET MIJN CODE
-  interfaces[interfaceName].forEach((interfaceInfo) => {//NIET MIJN CODE
-    if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {//NIET MIJN CODE
-      addresses.push(interfaceInfo.address);//NIET MIJN CODE
-    }//NIET MIJN CODE
-  });//NIET MIJN CODE
+app.engine("handlebars", engine());
+app.set("view engine", "handlebars");
+app.set("views", "./views");
+
+app.get("/", function (req, res) {
+  res.render("home", { chats: chats, title: "Homepage" });
 });
 
-console.log(`Server IP address: ${addresses[0]}`); //NIET MIJN CODE EINDE
-
-app.use('/static', express.static('static'));
-app.use('/js', express.static('js'));
-
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', './views');
-
-app.get('/', function(req, res) {
-  res.render('home', { title: 'Homepage' });
+app.get("/login", function (req, res) {
+  res.render("login", { title: "login" });
 });
 
-app.get('/login', function(req, res) {
-  res.render('login', { title: 'login' });
-});
-
-app.get('/chat', function(req, res) {
-  res.render('chat', {
+app.get("/chat/:chatName/", (req, res) => {
+  res.render("chat", {
     layout: false,
     messages: [],
-    currentUser: req.query.user
   });
 });
 
-app.use(function(req, res) {
-  res.status(404).render('404', { title: '404 Not Found :(' });
+app.use(function (req, res) {
+  res.status(404).render("404", { title: "404 Not Found :(" });
 });
 
-const messages = [];
+// server.js
+async function run() {
+  try {
+    await client.connect();
+    const database = client.db("chatlingo");
+    const messagesCollection = database.collection("messages");
+    console.log("MONGODB IS HIER YUH :)");
 
-io.on('connection', (socket) => {
-  console.log('A user connected');
+    io.on("connection", async (socket) => {
+      const chatName = socket.handshake.headers.referer.split("/").pop();
+      console.log(`User ${socket.id} connected in ${chatName}`);
+      socket.join(chatName);
 
-  messages.forEach(message => {
-    socket.emit('message', message);
-  });
+      socket.on("disconnect", () => {
+        console.log(`User ${socket.id} disconnected from ${chatName}`);
+      });
 
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
+      const chatHistory = await messagesCollection
+        .find({ chatName })
+        .toArray();
+      socket.emit("chatHistory", chatHistory);
 
-  socket.on('message', (msg) => {
-    msg.sender = socket.id;
-    messages.push(msg);
-    io.emit('message', msg);
-  });
-});
+      socket.on("message", async (msg) => {
+        msg.sender = socket.id;
+        await messagesCollection.insertOne({ ...msg, chatName });
+        io.to(chatName).emit("message", msg);
+        console.log(`Message toegevoegd aan MongoDB: ${msg}`);
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // await client.close();
+  }
+}
+run();
 
-http.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port: ${PORT}`);
+
+http.listen(PORT, () => {
+  console.log(`Server gestart on port ${PORT}`);
 });

@@ -1,165 +1,48 @@
-{{!-- home.handlebars --}}
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Chats page</title>
-        <link rel="stylesheet" href="/static/css/style.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      </head>
-
-<body>
-<header>
-    <h2 class="header-left">
-      Chats
-    </h2>
-    <div class="header-right">
-      <img src="https://ns.st-digital.net/wp-coantent/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-    </div>
-  </header>
-
-<a href = "/chat">
-  <div class="chats">
-
-    <div class="chat-container" id="chatone">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chats page</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <header>
+      <h2 class="header-left">
+        Chats
+      </h2>
+      <div class="header-right">
+        <img
+          src="https://ns.st-digital.net/wp-coantent/uploads/2023/03/Tekengebied-77.png"
+          alt="Profile Picture"
+        />
+      </div>
+    </header>
+    <div class="round-top"></div>
+    {{#each chats}}
+      <a id="chatName" href="/chat/{{this.chatName}}">
+        <div class="chat-container">
+          <div class="chat">
+            <div class="chat-left">
+              <div class="profile-status-container">
+                <div class="status-indicator"></div>
+                <div class="profile-picture-container">
+                  <img src="{{this.profilePicture}}" alt="Profile Picture" />
+                </div>
+              </div>
+            </div>
+            <div class="chat-right">
+              <div class="chat-header">
+                <div class="chat-name">{{this.chatName}}</div>
+                <div
+                  class="new-message-indicator"
+                >{{this.newMessageCount}}</div>
+              </div>
+              <div class="chat-last-message">{{this.lastMessage}}</div>
             </div>
           </div>
         </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz</div>
-            <div class="new-message-indicator">5</div>
-          </div>
-          <div class="chat-last-message">お元気ですか</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">1</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">3</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">3</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">3</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">3</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-container">
-      <div class="chat">
-        <div class="chat-left">
-          <div class="profile-status-container">
-            <div class="status-indicator"></div>
-            <div class="profile-picture-container">
-              <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture">
-            </div>
-          </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
-            <div class="chat-name">Deniz mops</div>
-            <div class="new-message-indicator">3</div>
-          </div>
-          <div class="chat-last-message">¿Qué tal?</div>
-        </div>
-      </div>
-    </div>
-    </a>
-
-</body>
+      </a>
+    {{/each}}
+    <script src="/js/home.js"></script>
+  </body>
 </html>

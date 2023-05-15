@@ -1,7 +1,6 @@
-const clickme = document.getElementById('click-me');
-const audio = document.getElementById('hello-audio');
+const clickme = document.getElementById("click-me");
+const audio = document.getElementById("hello-audio");
 
-clickme.addEventListener('click', () => {
+clickme.addEventListener("click", () => {
   audio.play();
 });
-

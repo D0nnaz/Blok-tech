@@ -1,13 +1,11 @@
-
-
 body,
 html {
-    list-style-type: none;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #fff7df;
+  list-style-type: none;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff7df;
 }
 
 header {
@@ -27,7 +25,7 @@ h2 {
   margin-bottom: -1em;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
@@ -50,6 +48,16 @@ a{
   z-index: 1;
   overflow: hidden;
   transform: translateY(-3em);
+}
+
+.round-top {
+  background-color: #fff7df;
+  border-radius: 50px 50px 0 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transform: translateY(-2em);
+  height: 2em;
 }
 
 #chatone {
@@ -123,63 +131,70 @@ a{
   color: #a86246;
 }
 
-
-
-
 .inchat {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #140702;
+  position: relative;
+  z-index: 10;
 }
 
 .inchat header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px;
-background-color: #fff7df;
-position: fixed;
-top: 0;
-width: 100%;
-z-index: 10;
-height: 8em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff7df;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+  height: 8em;
 }
+
+/* .inchat .round-top {
+  background-color: #140702;
+  border-radius: 50px 50px 0 0;
+  position: fixed;
+  z-index: 1;
+  overflow: hidden;
+  transform: translateY(10.3em);
+  height: 2em;
+} */
 
 .inchat .profile {
-display: flex;
-align-items: center;
-position: relative;
-width: 50px;
-height: 50px;
-border-radius: 50%;
-overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-.inchat .profile img{
-width: 100%;
-height: 100%;
-object-fit: cover;
+.inchat .profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .inchat .profile p {
-margin-left: 10px;
-color: red;
+  margin-left: 10px;
+  color: red;
 }
 
 .inchat .status {
-width: 20px;
-height: 20px;
-margin-left: 5px;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
 }
-
-
 
 .inchat .profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-image: url('profile-pic.png');
+  background-image: url("profile-pic.png");
   background-size: cover;
   margin-right: 10px;
 }
@@ -190,15 +205,6 @@ margin-left: 5px;
   color: #333;
 }
 
-.inchat .chats {
-background-color: #140702;
-border-radius: 50px 50px 0 0;
-position: relative;
-z-index: 10;
-overflow: hidden;
-transform: translateY(10.5em);
-}
-
 .chat-box {
   border-radius: 10px;
   margin: 20px;
@@ -207,25 +213,24 @@ transform: translateY(10.5em);
   display: flex;
   flex-direction: column;
   position: relative;
-  top:2em;
+  top: 2em;
   overflow-y: scroll;
   padding-bottom: 8em;
   margin-top: 8em;
 }
 
-
-		.chat-bubble {
-			background-color: #fff;
-			border-radius: 20px;
-			padding: 10px;
-			margin-bottom: 10px;
-      top: 80px;
-			max-width: 70%;
-		}
+.chat-bubble {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  top: 80px;
+  max-width: 70%;
+}
 
 .inchat .left-bubble {
   align-self: flex-start;
-  background-color:  #fff7df;
+  background-color: #fff7df;
 }
 
 .inchat .right-bubble {
@@ -234,104 +239,98 @@ transform: translateY(10.5em);
   color: #fff7df;
 }
 
-
 .inchat .input-bar {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 10px;
-border-top: 1px solid #ccc;
-width: 100%;
-height: 5em;
-position: fixed;
-bottom: 0;
-left: 0;
-z-index: 20;
-background-color:  #fff7df;
-box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  width: 100%;
+  height: 5em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  background-color: #fff7df;
+  box-sizing: border-box;
 }
 
 .inchat .input-field {
-flex: 1;
-margin: 0 10px;
-padding: 10px;
-border: none;
-border-radius: 20px;
-background-color: transparent;
-font-size: 16px;
-outline: none;
+  flex: 1;
+  margin: 0 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: transparent;
+  font-size: 16px;
+  outline: none;
 }
 
 .inchat .send-button {
-background-color:  #140702;
-color: #fff;
-border: none;
-padding: 10px 20px;
-border-radius: 20px;
-font-size: 16px;
-cursor: pointer;
-margin-right: 1.5em;
+  background-color: #140702;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 1.5em;
 }
 
 .inchat .emoji {
-font-size: 24px;
-margin-right: 10px;
-border: none;
-background-color: transparent;
-cursor: pointer;
+  font-size: 24px;
+  margin-right: 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-
-.inchat .profile-status-container{
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
-align-content: center;
-justify-content: center;
-align-items: center;
-width: 100%;
+.inchat .profile-status-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-.inchat .profile-status-container p{
-color: #140702;
-font-size: 1em;
+.inchat .profile-status-container p {
+  color: #140702;
+  font-size: 1em;
 }
-
 
 .inchat .profile-picture-container {
-position: relative;
-width: 70px;
-height: 70px;
-border-radius: 50%;
-overflow: hidden;
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .inchat .profile-picture-container img {
-width: 100%;
-height: 100%;
-object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .inchat .status-indicator {
-width: 20px;
-height: 20px;
-border-radius: 50%;
-background-color: #74a847;
-position: relative;
-z-index: 2;
-outline: 3px solid #fff7df;
-opacity: 0.8;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #74a847;
+  position: relative;
+  z-index: 2;
+  outline: 3px solid #fff7df;
+  opacity: 0.8;
 }
 
 .inchat .back {
-position: absolute;
-left: 20px;
-cursor: pointer;
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+  color: #a86246;
 }
-
-
-
-
 
 .hello {
   background-color: #f1f1f1;
@@ -354,7 +353,6 @@ cursor: pointer;
   background-position: center;
 }
 
-
 .hello h1 {
   font-size: 10em;
   margin-bottom: -10px;
@@ -366,15 +364,15 @@ cursor: pointer;
   font-size: 24px;
   color: #fff;
   font-style: italic;
-  font-family: 'Tinos', serif;
+  font-family: "Tinos", serif;
   z-index: 1;
 }
 
 .hello a {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 500;
   border: 2px solid white;
-  max-width: 10em;;
+  max-width: 10em;
   color: white;
   background-color: transparent;
   padding: 10px 20px;
@@ -394,7 +392,7 @@ cursor: pointer;
 .hello #click-me {
   position: absolute;
   bottom: 0;
-  right: 0;  
+  right: 0;
   width: 55%;
   height: 100vh;
   background-repeat: no-repeat;
@@ -404,16 +402,15 @@ cursor: pointer;
   cursor: pointer;
 }
 
-.hello h2{
+.hello h2 {
   max-width: 4em;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   margin-top: -2em;
-  transform:translate(-100%, -30%);
+  transform: translate(-100%, -30%);
   opacity: 0.5;
-  color:#a86246;
+  color: #a86246;
   font-size: 4em;
 }
-
 
 @media (max-width: 1000px) {
   .hello h1 {
@@ -422,15 +419,15 @@ cursor: pointer;
     color: #fff;
     z-index: 1;
   }
-  
+
   .hello p {
     font-size: 40px;
     color: #fff;
     font-style: italic;
-    font-family: 'Tinos', serif;
+    font-family: "Tinos", serif;
     z-index: 1;
   }
-  
+
   .hello button {
     font-size: 40px;
   }

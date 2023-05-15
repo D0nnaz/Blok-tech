@@ -1,6 +1,5 @@
 # Blok-tech
 
+## License
 
-
-## License 
 <a href = "https://github.com/D0nnaz"> MIT © Donna Stam </a>

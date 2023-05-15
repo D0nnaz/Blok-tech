@@ -10,7 +10,6 @@
 // app.set('view engine', 'handlebars');
 // app.set('views', './views');
 
-
 // app.get('/', function(req, res) {
 //   res.render('home', { title: 'Homepage' });
 // });
