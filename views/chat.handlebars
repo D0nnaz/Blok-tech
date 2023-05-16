@@ -24,15 +24,16 @@
         <p>Deniz</p>
       </div>
     </header>
-    <div class="chat-box">
-      {{#each messages}}
-        {{#if isRightBubble this}}
-          <div class="chat-bubble right-bubble">{{this.content}}</div>
-        {{else}}
-          <div class="chat-bubble left-bubble">{{this.content}}</div>
-        {{/if}}
-      {{/each}}
-    </div>
+<div class="chat-box">
+  {{#each messages}}
+    {{#if (isRightBubble this)}}
+      <div class="chat-bubble right-bubble">{{this.content}}</div>
+    {{else}}
+      <div class="chat-bubble left-bubble">{{this.content}}</div>
+    {{/if}}
+  {{/each}}
+</div>
+
 
     <div class="input-bar">
       <button class="emoji">🤠</button>
