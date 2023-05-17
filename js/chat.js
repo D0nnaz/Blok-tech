@@ -2,6 +2,7 @@ const inputField = document.querySelector(".input-field");
 const sendButton = document.querySelector(".send-button");
 const chatBox = document.querySelector(".chat-box");
 const socket = io();
+let username; 
 
 socket.on("connect", function () {
   console.log("Connected to server");
@@ -17,6 +18,10 @@ socket.on("chatHistory", function (chatHistory) {
   });
 });
 
+socket.on("loggedInUser", function (loggedInUser) {
+  username = loggedInUser; // Set the username received from the server
+});
+
 sendButton.addEventListener("click", sendMessage);
 
 inputField.addEventListener("keypress", function (e) {
@@ -29,7 +34,7 @@ function sendMessage() {
   const messageContent = inputField.value;
   inputField.value = "";
 
-  socket.emit("message", { content: messageContent, sender: socket.id });
+  socket.emit("message", { content: messageContent });
 }
 
 function displayMessage(message) {
@@ -42,7 +47,7 @@ function displayMessage(message) {
 }
 
 function getMessageClass(sender) {
-  if (sender === socket.id) {
+  if (sender === username) {
     return "right-bubble";
   } else {
     return "left-bubble";

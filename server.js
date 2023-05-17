@@ -1,4 +1,3 @@
-//server.js
 const express = require("express");
 const app = express();
 const { engine } = require("express-handlebars");
@@ -10,6 +9,10 @@ const io = require("socket.io")(http);
 const PORT = process.env.PORT || 3000;
 const chats = require("./js/home.js");
 
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const MemoryStore = require("memorystore")(session); //https://www.npmjs.com/package/memorystore
+
 app.use("/static", express.static("static"));
 app.use("/js", express.static("js"));
 
@@ -17,26 +20,66 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-app.get("/", function (req, res) {
-  res.render("home", { chats: chats, title: "Homepage" });
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+const sessionMiddleware = session({ //https://medium.com/@alysachan830/cookie-and-session-ii-how-session-works-in-express-session-7e08d102deb8
+  secret: "geheim-woord",
+  resave: false,
+  saveUninitialized: true,
+  store: new MemoryStore(),
+  cookie: { secure: false },
 });
+
+app.use(sessionMiddleware);
+
+const checkSession = (req, res, next) => {
+  if (!req.session.username) {
+    return res.redirect("/login");
+  }
+  next();
+};
 
 app.get("/login", function (req, res) {
   res.render("login", { title: "login" });
 });
 
-app.get("/chat/:chatName/", (req, res) => {
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  await client.connect();
+  const database = client.db("chatlingo");
+  const usersCollection = database.collection("users");
+
+  const user = await usersCollection.findOne({ username });
+
+  if (!user || user.password !== password) {
+    return res.status(401).send("Ongeldige gebruikersnaam of wachtwoord.");
+  }
+
+  req.session.username = username;
+
+  const loggedInUrl = "/";
+  return res.redirect(loggedInUrl);
+});
+
+app.get("/", checkSession, function (req, res) {
+  const username = req.session.username || "";
+  console.log("Huidige gebruikersnaam:", username);
+  res.render("home", { username: username, chats: chats, title: "Homepage" });
+});
+
+app.get("/chat/:chatName", checkSession, (req, res) => {
+  const username = req.session.username || "";
+  const chatName = req.params.chatName;
   res.render("chat", {
     layout: false,
     messages: [],
+    username: username,
+    chatName: chatName,
   });
 });
 
-app.use(function (req, res) {
-  res.status(404).render("404", { title: "404 Not Found :(" });
-});
-
-// server.js
 async function run() {
   try {
     await client.connect();
@@ -44,24 +87,38 @@ async function run() {
     const messagesCollection = database.collection("messages");
     console.log("MONGODB IS HIER YUH :)");
 
+    io.use((socket, next) => {
+      sessionMiddleware(socket.request, {}, next);
+    });
+
     io.on("connection", async (socket) => {
       const chatName = socket.handshake.headers.referer.split("/").pop();
-      console.log(`User ${socket.id} connected in ${chatName}`);
+      console.log(
+        `User ${socket.request.session.username} connected in ${chatName}`
+      );
       socket.join(chatName);
 
+      if (socket.request.session && socket.request.session.username) {
+        const loggedInUser = socket.request.session.username;
+        console.log(`User ${loggedInUser} is ingelogd`);
+        io.to(socket.id).emit("loggedInUser", loggedInUser);
+      } else {
+        console.log("Er is niet ingelogd");
+      }
+
       socket.on("disconnect", () => {
-        console.log(`User ${socket.id} disconnected from ${chatName}`);
+        console.log(
+          `User ${socket.request.session.username} disconnected from ${chatName}`
+        );
       });
 
-      const chatHistory = await messagesCollection
-        .find({ chatName })
-        .toArray();
+      const chatHistory = await messagesCollection.find({ chatName }).toArray();
       socket.emit("chatHistory", chatHistory);
 
       socket.on("message", async (msg) => {
-        msg.sender = socket.id;
-        await messagesCollection.insertOne({ ...msg, chatName });
-        io.to(chatName).emit("message", msg);
+        const sender = socket.request.session.username;
+        await messagesCollection.insertOne({ ...msg, chatName, sender });
+        io.to(chatName).emit("message", { ...msg, sender });
         console.log(`Message toegevoegd aan MongoDB: ${msg}`);
       });
     });
@@ -72,8 +129,6 @@ async function run() {
   }
 }
 run();
-
-
 http.listen(PORT, () => {
-  console.log(`Server gestart on port ${PORT}`);
+  console.log(`Server gestart op poort ${PORT}`);
 });
