@@ -21,9 +21,15 @@
             alt="Profile Picture"
           />
         </div>
-        <p>Deniz</p>
+        <p>{{chatName}}</p>
       </div>
-    </header>
+    </header> 
+
+    <section class="fallback-message">
+  <h2>JavaScript Disabled Are you a fan of living in the Stone Age? Go ahead, enable JavaScript, and join us in the modern era!</h2>
+  <img src ="https://i.kym-cdn.com/entries/icons/mobile/000/018/259/55181940.jpg">
+</section>
+
 <div class="chat-box">
   {{#each messages}}
     {{#if (isRightBubble this)}}
@@ -34,21 +40,25 @@
   {{/each}}
 </div>
 
+<div class="input-bar">
+  <form id = "input-form" action="/chat/{{chatName}}/message" method="POST">
+<input
+  type="text"
+  class="input-field"
+  id="message-input"
+  placeholder="Type a message..."
+  aria-label="Type hier uw bericht"
+  name="message"
+  autocomplete="off"
+/>
 
-    <div class="input-bar">
-      <button class="emoji">🤠</button>
-      <input
-        type="text"
-        class="input-field"
-        id="message-input"
-        placeholder="Type a message..."
-        aria-label="Type hier uw bericht"
-      />
-      <button class="send-button">Send</button>
-    </div>
-
+    <button class="send-button" type="submit">Send</button> <!-- type-attribuut gewijzigd naar "submit" -->
+  </form>
+</div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
-
   </body>
 </html>
+
+
+

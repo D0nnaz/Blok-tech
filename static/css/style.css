@@ -212,11 +212,26 @@ a {
   height: fit-content;
   display: flex;
   flex-direction: column;
-  position: relative;
   top: 2em;
   overflow-y: scroll;
   padding-bottom: 8em;
   margin-top: 8em;
+  z-index: -10;
+  scroll-behavior: smooth;
+}
+
+.username{
+  font-size: 0.9em;
+  color: #fff7df;
+  align-self: start;
+  font-weight: bolder;
+}
+
+.username-me{
+  font-size: 0.9em;
+  color: #fff7df;
+  align-self: flex-end;
+  font-weight: bolder;
 }
 
 .chat-bubble {
@@ -255,8 +270,14 @@ a {
   box-sizing: border-box;
 }
 
+.inchat form{
+  display: flex;
+  width: 100%;
+}
+
+
 .inchat .input-field {
-  flex: 1;
+  flex: 3;
   margin: 0 10px;
   padding: 10px;
   border: none;
@@ -266,6 +287,8 @@ a {
   outline: none;
 }
 
+
+
 .inchat .send-button {
   background-color: #140702;
   color: #fff;
@@ -274,16 +297,10 @@ a {
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
-  margin-right: 1.5em;
+  align-self: flex-end;
 }
 
-.inchat .emoji {
-  font-size: 24px;
-  margin-right: 10px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
+
 
 .inchat .profile-status-container {
   display: flex;
@@ -431,4 +448,44 @@ a {
   .hello button {
     font-size: 40px;
   }
+}
+
+
+.fallback-message h2{
+  text-align: center;
+  padding: 20px;
+  font-size: 1.5em;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fallback-message img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  margin-top: 7em;;
+}
+
+
+.fallback-message form{
+  position: absolute;
+  bottom: 0;
+  height: 5em;
+  z-index: 100;
+  background-color: #fff7df;
+  width: 100%;
+  display: flex;
+}
+.fallback-message button.send-button{
+background-color: #140702;
+color: #fff;
+border: none;
+padding: 0px 20px;
+border-radius: 20px;
+font-size: 16px;
+cursor: pointer;
+margin-right: 1.5em;
+margin-top: 1em;
 }

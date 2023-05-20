@@ -1,3 +1,4 @@
+//server.js
 const express = require("express");
 const app = express();
 const { engine } = require("express-handlebars");
@@ -8,6 +9,8 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 3000;
 const chats = require("./js/home.js");
+const database = client.db("chatlingo");
+const messagesCollection = database.collection("messages");
 
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -63,7 +66,7 @@ app.post("/login", async (req, res) => {
   return res.redirect(loggedInUrl);
 });
 
-app.get("/", checkSession, function (req, res) {
+app.get("/", checkSession, function (req, res) {  
   const username = req.session.username || "";
   console.log("Huidige gebruikersnaam:", username);
   res.render("home", { username: username, chats: chats, title: "Homepage" });
@@ -80,11 +83,23 @@ app.get("/chat/:chatName", checkSession, (req, res) => {
   });
 });
 
+app.post("/chat/:chatName/message", checkSession, async (req, res) => {
+  const chatName = req.params.chatName;
+  const sender = req.session.username;
+  const messageContent = req.body.message;
+
+  await messagesCollection.insertOne({ chatName, sender, content: messageContent });
+
+  io.to(chatName).emit("message", { chatName, sender, content: messageContent });
+
+  res.redirect(`/chat/${chatName}`);
+});
+
+
 async function run() {
   try {
     await client.connect();
-    const database = client.db("chatlingo");
-    const messagesCollection = database.collection("messages");
+
     console.log("MONGODB IS HIER YUH :)");
 
     io.use((socket, next) => {
@@ -117,10 +132,12 @@ async function run() {
 
       socket.on("message", async (msg) => {
         const sender = socket.request.session.username;
-        await messagesCollection.insertOne({ ...msg, chatName, sender });
-        io.to(chatName).emit("message", { ...msg, sender });
+        const timestamp = Date.now(); 
+        await messagesCollection.insertOne({ ...msg, chatName, sender, timestamp });
+        io.to(chatName).emit("message", { ...msg, sender, timestamp });
         console.log(`Message toegevoegd aan MongoDB: ${msg}`);
       });
+      
     });
   } catch (err) {
     console.log(err);
