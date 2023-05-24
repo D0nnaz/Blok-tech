@@ -9,16 +9,17 @@
 </head>
 
 <body class="inchat">
-  <header>
-    <div class="profile-status-container">
-      <a href="/" class="back">← Back</a>
-      <div class="status-indicator"></div>
-      <div class="profile-picture-container">
-        <img src="https://ns.st-digital.net/wp-content/uploads/2023/03/Tekengebied-77.png" alt="Profile Picture" />
-      </div>
-      <p>{{chatName}}</p>
+<header>
+  <div class="profile-status-container">
+    <a href="/" class="back">← Back</a>
+    {{!-- <div class="status-indicator"></div> --}}
+    <div class="profile-picture-container">
+      <img src="{{profilePicture}}" alt="Profile Picture" />
     </div>
-  </header>
+    <p>{{chatName}}</p>
+  </div>
+</header>
+
 
   <section class="fallback-message">
     <h2>JavaScript Disabled Are you a fan of living in the Stone Age? Go ahead, enable JavaScript, and join us in the
@@ -46,6 +47,7 @@
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>
+  <script src="/js/home.js"></script>
 </body>
 
 </html>

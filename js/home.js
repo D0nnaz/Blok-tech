@@ -2,43 +2,50 @@
 const chats = [
   {
     chatName: "Mandarin",
-    profilePicture: "/static/images/profile1.png",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/commons/d/dd/Flag_of_chinese-speaking_countries_and_territories.svg",
     newMessageCount: 2,
     lastMessage: "你好!",
   },
   {
     chatName: "Spanish",
-    profilePicture: "/static/images/profile2.png",
+    profilePicture:
+      "https://plainlanguagenetwork.org/wp-content/uploads/2017/05/banderashispanas-200.jpg",
     newMessageCount: 1,
     lastMessage: "¿Cómo estás?",
   },
   {
     chatName: "Hindi",
-    profilePicture: "/static/images/profile3.png",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg",
     newMessageCount: 0,
     lastMessage: "फिर मिलेंगे",
   },
   {
     chatName: "English",
-    profilePicture: "/static/images/profile4.png",
+    profilePicture:
+      "https://cdn-eu.purposegames.com/images/game/bg/96/ZYdKhTOijhE.png?s=1400",
     newMessageCount: 0,
     lastMessage: "Hello!",
   },
   {
     chatName: "Portugese",
-    profilePicture: "/static/images/profile5.png",
+    profilePicture:
+      "https://plainlanguagenetwork.org/wp-content/uploads/2017/07/Portuguese_Speaking_Country_Flags.png",
     newMessageCount: 3,
     lastMessage: "Bom dia",
   },
   {
     chatName: "Dzongkha",
-    profilePicture: "/static/images/profile6.png",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/commons/9/91/Flag_of_Bhutan.svg",
     newMessageCount: 1,
     lastMessage: "Na gi tshen gachi mo?",
   },
   {
     chatName: "Russian",
-    profilePicture: "/static/images/profile7.png",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/commons/d/d6/Russian_language_flag.svg",
     newMessageCount: 0,
     lastMessage: "привет!",
   },

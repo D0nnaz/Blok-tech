@@ -1,18 +1,26 @@
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Login Page</title>
-  </head>
-  <body>
-    <h1>Login Page</h1>
-    <form id="login-form" method="POST" action="/login">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required />
-      <br />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <br />
-      <input type="submit" value="Login" />
-    </form>
-  </body>
+<!-- login.handlebars -->
+<html class="inlog">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <h1>Login Page</h1>
+  {{#if error}}
+  <div class="error-message">
+    <span>{{error}}</span>
+  </div>
+  {{/if}}
+  <form id="login-form" method="POST" action="/login">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+
+    <input type="submit" value="Login" />
+  </form>
+</body>
+
 </html>

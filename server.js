@@ -76,13 +76,9 @@ app.post("/login", async (req, res) => {
 
   const user = await usersCollection.findOne({ username });
 
-  if (!user) {
-    return res.status(401).send("Ongeldige gebruikersnaam of wachtwoord.");
-  }
-
-  const isPasswordCorrect = await bcrypt.compare(password, user.password);
-  if (!isPasswordCorrect) {
-    return res.status(401).send("Ongeldige gebruikersnaam of wachtwoord.");
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    // Invalid username or password
+    return res.render("login", { error: "Invalid username or password." });
   }
 
   req.session.username = username;
@@ -90,6 +86,7 @@ app.post("/login", async (req, res) => {
   const loggedInUrl = "/";
   return res.redirect(loggedInUrl);
 });
+
 
 app.get("/", checkSession, async function (req, res) {
   const username = req.session.username || "";
@@ -115,7 +112,10 @@ app.get("/", checkSession, async function (req, res) {
 app.get("/chat/:chatName", checkSession, async (req, res) => {
   const username = req.session.username || "";
   const chatName = req.params.chatName;
+ const chat = chats.find((c) => c.chatName === chatName);
 
+
+  
   await messagesCollection.updateMany(
     { chatName, sender: { $ne: username }, read: false },
     { $set: { read: true } }
@@ -135,6 +135,7 @@ app.get("/chat/:chatName", checkSession, async (req, res) => {
     username: username,
     chatName: chatName,
     chats: updatedChats,
+    profilePicture: chat.profilePicture,
   });
 });
 
