@@ -148,19 +148,20 @@ a {
   background-color: #fff7df;
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 99%;
   z-index: 0;
   height: 8em;
+  border-radius: 0 0 50px 50px;
 }
 
 /* .inchat .round-top {
   background-color: #140702;
   border-radius: 50px 50px 0 0;
   position: fixed;
-  z-index: 1;
-  overflow: hidden;
-  transform: translateY(10.3em);
-  height: 2em;
+  z-index: 100;
+  width: 100%;
+  height: 1em;
+  transform: translateY(0.249em);
 } */
 
 .inchat .profile {
@@ -456,7 +457,7 @@ a {
   padding: 20px;
   font-size: 1.5em;
   position: absolute;
-  top: 40%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -465,7 +466,7 @@ a {
   display: block;
   margin: 0 auto;
   max-width: 100%;
-  margin-top: 7em;;
+  margin-top: 10%;;
 }
 
 
@@ -607,4 +608,102 @@ input[type="submit"]:hover {
   100% {
     transform: scale(1);
   }
+}
+
+@keyframes chatAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chat-container {
+  animation: chatAnimation 1s ease-in-out;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+@keyframes headerAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+header {
+  animation: headerAnimation 0.7s ease-in-out;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+@keyframes bodyAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%) rotateZ(-180deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateZ(0);
+  }
+}
+
+.inlogBody {
+  animation: bodyAnimation 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+  opacity: 0;
+}
+
+
+@keyframes errorBodyAnimation {
+  0% {
+    transform: translateX(-5px) rotateZ(-5deg);
+  }
+
+  25% {
+    transform: translateX(5px) rotateZ(5deg);
+  }
+
+  50% {
+    transform: translateX(-5px) rotateZ(-5deg);
+  }
+
+  75% {
+    transform: translateX(5px) rotateZ(5deg);
+  }
+
+  100% {
+    transform: translateX(0) rotateZ(0);
+  }
+}
+
+.error-body {
+  animation: errorBodyAnimation 0.3s ease-in-out 1;
+}
+
+
+@keyframes fallbackMessageAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fallback-message {
+  animation: fallbackMessageAnimation 0.5s ease-in-out both;
+  opacity: 0;
 }

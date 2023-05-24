@@ -5,11 +5,13 @@ const socket = io();
 const fallbackMessage = document.querySelector(".fallback-message");
 let username;
 
-document.getElementById("input-form").addEventListener("submit", function (e) {
+document.getElementById("input-form").addEventListener("submit", function(e) {
   e.preventDefault();
 });
 
-fallbackMessage.style.display = "none";
+if (fallbackMessage.style.display !== "none") {
+  fallbackMessage.style.display = "none";
+}
 
 socket.on("connect", function () {
   console.log("Connected to server");
@@ -17,18 +19,18 @@ socket.on("connect", function () {
 
 socket.on("message", function (data) {
   displayMessage(data);
-  setTimeout(scrollToBottom, 100); // Scroll naar beneden met een kleine vertraging
+  setTimeout(scrollToBottom, 100); 
 });
 
 socket.on("chatHistory", function (chatHistory) {
   chatHistory.forEach((message) => {
     displayMessage(message);
   });
-  setTimeout(scrollToBottom, 100); // Scroll naar beneden met een kleine vertraging
+  setTimeout(scrollToBottom, 100); 
 });
 
 socket.on("loggedInUser", function (loggedInUser) {
-  username = loggedInUser; // Set the username received from the server
+  username = loggedInUser; 
 });
 
 sendButton.addEventListener("click", sendMessage);
@@ -52,7 +54,7 @@ function sendMessage() {
 
 function displayMessage(message, isSocketMessage = true) {
   if (isSocketMessage && message.content.trim() === "") {
-    return; // Als het een leeg bericht is via de socket, sla het over
+    return; 
   }
 
   const newChatBubble = document.createElement("div");
@@ -61,10 +63,8 @@ function displayMessage(message, isSocketMessage = true) {
 
   const usernameElement = document.createElement("p");
   usernameElement.classList.add(addUsername(message.sender));
-  usernameElement.textContent = `${message.sender} - ${getFormattedTimestamp(
-    message.timestamp
-  )}`;
-  chatBox.appendChild(usernameElement); // Voeg de username boven de chat bubble toe
+  usernameElement.textContent = `${message.sender} - ${getFormattedTimestamp(message.timestamp)}`;
+  chatBox.appendChild(usernameElement); 
 
   newChatBubble.textContent = message.content;
   chatBox.appendChild(newChatBubble);

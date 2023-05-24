@@ -11,7 +11,7 @@ const client = new MongoClient(MONGO_URI);
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 3000;
-const chats = require("./js/home.js");
+const chats = require("./public/js/home");
 const database = client.db("chatlingo");
 const messagesCollection = database.collection("messages");
 const bcrypt = require("bcrypt");
@@ -31,6 +31,7 @@ Object.keys(interfaces).forEach((interfaceName) => {
   });
 });
 
+
 console.log(`Server IP address: ${addresses[0]}`);
 
 const session = require("express-session");
@@ -44,7 +45,9 @@ const checkSession = (req, res, next) => {
 };
 
 app.use("/static", express.static("static"));
-app.use("/js", express.static("js"));
+app.use(express.static("public"));
+app.use("/js", express.static("public/js"));
+
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -64,7 +67,8 @@ const sessionMiddleware = session({
 app.use(sessionMiddleware);
 
 app.get("/login", function (req, res) {
-  res.render("login", { title: "login" });
+  res.render("login", { title: "login", bodyClass: "inlogbody" });
+
 });
 
 app.post("/login", async (req, res) => {
@@ -78,7 +82,10 @@ app.post("/login", async (req, res) => {
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     // Invalid username or password
-    return res.render("login", { error: "Invalid username or password." });
+    return res.render("login", { error: "Invalid username or password.",
+      bodyClass: "error-body",
+    });
+
   }
 
   req.session.username = username;
@@ -112,7 +119,7 @@ app.get("/", checkSession, async function (req, res) {
 app.get("/chat/:chatName", checkSession, async (req, res) => {
   const username = req.session.username || "";
   const chatName = req.params.chatName;
- const chat = chats.find((c) => c.chatName === chatName);
+  const chat = chats.find((c) => c.chatName === chatName);
 
 
   
@@ -204,6 +211,7 @@ async function run() {
         );
       });
 
+
       const chatHistory = await messagesCollection.find({ chatName }).toArray();
       socket.emit("chatHistory", chatHistory);
 
@@ -233,3 +241,5 @@ run();
 http.listen(PORT, () => {
   console.log(`Server gestart op poort ${PORT}`);
 });
+
+
