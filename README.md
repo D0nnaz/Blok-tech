@@ -2,7 +2,11 @@
 With ChatLingo, you can log in and join specific language-based chats, such as Spanish or Mandarin. Within these chats, you have the opportunity to engage in conversations with other users, fostering a collaborative environment for language learning. Whether it's asking questions, engaging in casual conversations, or providing assistance, ChatLingo allows you to interact with fellow language enthusiasts, creating an enjoyable and supportive space to improve your language skills.
 
 # Preview app
+Desktop:<br>
 https://youtu.be/38kuqKCZ044
+
+Phone:<br>
+https://youtube.com/shorts/rxlEhegzNto?feature=share
 
 
 # How to install ChatLingo
