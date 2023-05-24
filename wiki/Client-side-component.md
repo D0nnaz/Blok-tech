@@ -1,0 +1,1 @@
+Voor een chatfunctie zou een component die gebouwd kan worden met progressieve enhancement een real-time berichtensysteem kunnen zijn. De server-side kan de opslag van berichten en gebruikersgegevens afhandelen, terwijl de client-side het weergeven van de berichten, het verzenden van nieuwe berichten en het bijwerken van de chat in real-time kan afhandelen.
