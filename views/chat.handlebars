@@ -9,17 +9,17 @@
 </head>
 
 <body class="inchat">
-<header>
-  <div class="profile-status-container">
-    <a href="/" class="back">← Back</a>
-    {{!-- <div class="status-indicator"></div> --}}
-    <div class="profile-picture-container">
-      <img src="{{profilePicture}}" alt="Profile Picture" />
+  <header>
+    <div class="profile-status-container">
+      <a href="/" class="back">← Back</a>
+      {{!-- <div class="status-indicator"></div> --}}
+      <div class="profile-picture-container">
+        <img src="{{profilePicture}}" alt="Profile Picture" />
+      </div>
+      <p>{{chatName}}</p>
     </div>
-    <p>{{chatName}}</p>
-  </div>
-</header>
-<div class = round-top></div>
+  </header>
+  <div class=round-top></div>
 
 
   <section class="fallback-message">
@@ -47,7 +47,8 @@
     </form>
   </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/chat.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
 </body>
+
 </html>

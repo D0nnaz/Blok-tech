@@ -1,50 +1,50 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Chats page</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <header>
-      <h2 class="header-left">
-        Chats
-      </h2>
-      <section class="header-right">
-        <img
-          src="https://e7.pngegg.com/pngimages/273/380/png-clipart-round-world-flag-flags-of-the-world-globe-world-flag-country-miscellaneous-flag.png"
-          alt="Profile Picture"
-        />
-      </section>
-    </header>
-    <div class="round-top"></div>
-    {{#each chats}}
-<a id="chatName" href="/chat/{{this.chatName}}">
-        <div class="chat-container">
-          <div class="chat">
-            <div class="chat-left">
-              <div class="profile-status-container">
-                {{!-- <div class="status-indicator"></div> --}}
-                <div class="profile-picture-container">
-                  <img src="{{this.profilePicture}}" alt="Profile Picture" />
-                </div>
-              </div>
-            </div>
-            <div class="chat-right">
-              <div class="chat-header">
-                <div class="chat-name">{{this.chatName}}</div>
-                <div
-                  class="new-message-indicator"
-                >{{this.newMessageCount}}</div>
-              </div>
-              <div class="chat-last-message">{{this.lastMessage}}</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Chats page</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <header>
+    <h2 class="header-left">
+      Chats
+    </h2>
+    <section class="header-right">
+      <img
+        src="https://e7.pngegg.com/pngimages/273/380/png-clipart-round-world-flag-flags-of-the-world-globe-world-flag-country-miscellaneous-flag.png"
+        alt="Profile Picture" />
+    </section>
+  </header>
+  <div class="round-top"></div>
+  {{#each chats}}
+  <a id="chatName" href="/chat/{{this.chatName}}">
+    <div class="chat-container">
+      <div class="chat">
+        <div class="chat-left">
+          <div class="profile-status-container">
+            {{!-- <div class="status-indicator"></div> --}}
+            <div class="profile-picture-container">
+              <img src="{{this.profilePicture}}" alt="Profile Picture" />
             </div>
           </div>
         </div>
-      </a>
-    {{/each}}
-    <script src="/public/js/home.js"></script>
-    <script src="/public/js/chat.js"></script>
-    <script src="/public/js/animation.js"></script>
-  </body>
+        <div class="chat-right">
+          <div class="chat-header">
+            <div class="chat-name">{{this.chatName}}</div>
+            <div class="new-message-indicator">{{this.newMessageCount}}</div>
+          </div>
+          <div class="chat-last-message">{{this.lastMessage}}</div>
+        </div>
+      </div>
+    </div>
+  </a>
+  {{/each}}
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/home.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+
 </html>

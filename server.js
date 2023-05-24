@@ -31,7 +31,6 @@ Object.keys(interfaces).forEach((interfaceName) => {
   });
 });
 
-
 console.log(`Server IP address: ${addresses[0]}`);
 
 const session = require("express-session");
@@ -47,7 +46,6 @@ const checkSession = (req, res, next) => {
 app.use("/static", express.static("static"));
 app.use(express.static("public"));
 app.use("/js", express.static("public/js"));
-
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -68,7 +66,6 @@ app.use(sessionMiddleware);
 
 app.get("/login", function (req, res) {
   res.render("login", { title: "login", bodyClass: "inlogbody" });
-
 });
 
 app.post("/login", async (req, res) => {
@@ -82,10 +79,10 @@ app.post("/login", async (req, res) => {
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     // Invalid username or password
-    return res.render("login", { error: "Invalid username or password.",
+    return res.render("login", {
+      error: "Invalid username or password.",
       bodyClass: "error-body",
     });
-
   }
 
   req.session.username = username;
@@ -93,7 +90,6 @@ app.post("/login", async (req, res) => {
   const loggedInUrl = "/";
   return res.redirect(loggedInUrl);
 });
-
 
 app.get("/", checkSession, async function (req, res) {
   const username = req.session.username || "";
@@ -121,8 +117,6 @@ app.get("/chat/:chatName", checkSession, async (req, res) => {
   const chatName = req.params.chatName;
   const chat = chats.find((c) => c.chatName === chatName);
 
-
-  
   await messagesCollection.updateMany(
     { chatName, sender: { $ne: username }, read: false },
     { $set: { read: true } }
@@ -211,7 +205,6 @@ async function run() {
         );
       });
 
-
       const chatHistory = await messagesCollection.find({ chatName }).toArray();
       socket.emit("chatHistory", chatHistory);
 
@@ -241,5 +234,3 @@ run();
 http.listen(PORT, () => {
   console.log(`Server gestart op poort ${PORT}`);
 });
-
-

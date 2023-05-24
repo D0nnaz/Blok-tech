@@ -1,4 +1,4 @@
-/* stylelint-disable-next-line selector-no-unsupported-media-feature */
+/* HOME */
 html {
   list-style-type: none;
   box-sizing: border-box;
@@ -73,6 +73,7 @@ a {
   max-height: 3em;
   position: relative;
 }
+
 .chat-name {
   color: #140702;
 }
@@ -131,6 +132,9 @@ a {
   color: #a86246;
 }
 
+
+/* INCHAT AKA CHAT.HANDLEBARS */
+
 .inchat {
   margin: 0;
   padding: 0;
@@ -154,15 +158,6 @@ a {
   border-radius: 0 0 50px 50px;
 }
 
-/* .inchat .round-top {
-  background-color: #140702;
-  border-radius: 50px 50px 0 0;
-  position: fixed;
-  z-index: 100;
-  width: 100%;
-  height: 1em;
-  transform: translateY(0.249em);
-} */
 
 .inchat .profile {
   display: flex;
@@ -221,14 +216,14 @@ a {
   scroll-behavior: smooth;
 }
 
-.username{
+.username {
   font-size: 0.9em;
   color: #fff7df;
   align-self: start;
   font-weight: bolder;
 }
 
-.username-me{
+.username-me {
   font-size: 0.9em;
   color: #fff7df;
   align-self: flex-end;
@@ -271,7 +266,7 @@ a {
   box-sizing: border-box;
 }
 
-.inchat form{
+.inchat form {
   display: flex;
   width: 100%;
 }
@@ -350,6 +345,8 @@ a {
   color: #a86246;
 }
 
+/* 404 ERROR PAGE */
+
 .hello {
   background-color: #f1f1f1;
   font-family: Arial, sans-serif;
@@ -400,6 +397,7 @@ a {
   z-index: 1;
   text-decoration: none;
 }
+
 .hello a:hover {
   background-color: white;
   color: black;
@@ -451,8 +449,9 @@ a {
   }
 }
 
+/* FALLBACK */
 
-.fallback-message h2{
+.fallback-message h2 {
   text-align: center;
   padding: 20px;
   font-size: 1.5em;
@@ -466,11 +465,12 @@ a {
   display: block;
   margin: 0 auto;
   max-width: 100%;
-  margin-top: 10%;;
+  margin-top: 10%;
+  ;
 }
 
 
-.fallback-message form{
+.fallback-message form {
   position: absolute;
   bottom: 0;
   height: 5em;
@@ -479,56 +479,45 @@ a {
   width: 100%;
   display: flex;
 }
-.fallback-message button.send-button{
-background-color: #140702;
-color: #fff;
-border: none;
-padding: 0px 20px;
-border-radius: 20px;
-font-size: 16px;
-cursor: pointer;
-margin-right: 1.5em;
-margin-top: 1em;
+
+.fallback-message button.send-button {
+  background-color: #140702;
+  color: #fff;
+  border: none;
+  padding: 0px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 1.5em;
+  margin-top: 1em;
 }
 
+/* INLOG */
 
-/* Stijlen voor het gif-menu */
-#gif-menu {
+
+/* style.css */
+.inlog h1 {
+  font-size: 45px;
+  margin-top: 50px;
+}
+
+.inlog body {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
-
-/* Stijlen voor de gif-items */
-.gif-item {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-
-
-    .inlog h1 {
-        font-size: 45px;
-        margin-top: 50px;
-      }
-    
-      .inlog body{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100vh;
-      }
-
 
 .inlog form {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 90%;
+  /* Aangepast naar een percentage van de beschikbare ruimte */
   max-width: 500px;
-
+  margin: 0 auto;
+  /* Gecentreerd op de pagina */
 }
 
 .inlog .inlog label {
@@ -545,16 +534,15 @@ margin-top: 1em;
   margin-bottom: 10px;
   border-radius: 5px;
   border: none;
-      background-color: #fff;
-      color:#140702;
+  background-color: #fff;
+  color: #140702;
 }
 
 .inlog input[type="text"]:focus,
 .inlog input[type="password"]:focus {
   background-color: #a86246;
-  color:#fff7df;
+  color: #fff7df;
 }
-
 
 .inlog input[type="submit"] {
   width: 100%;
@@ -565,36 +553,21 @@ margin-top: 1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-    letter-spacing: 2px;
-      transition: all .25s;
+  letter-spacing: 2px;
+  transition: all .25s;
 }
 
 input[type="submit"]:hover {
   letter-spacing: 15px;
-    background-color: #a86246;
-}
-
-/* Responsieve stijlen */
-@media (max-width: 600px) {
-  .inlog h1 {
-    font-size: 20px;
-  }
-
-    .inlog input[type="text"],
-    .inlog input[type="password"] {
-    width: 80%;
-    max-width: none;
-  }
-
-    .inlog input[type="submit"] {
-    width: 60%;
-    max-width: none;
-  }
+  background-color: #a86246;
 }
 
 .error-message {
   animation: pulse 1.5s ease-in-out infinite;
 }
+
+
+/* KEYFRAMES */
 
 @keyframes pulse {
   0% {
