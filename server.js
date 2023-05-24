@@ -1,9 +1,12 @@
-//server.js
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const { engine } = require("express-handlebars");
 const { MongoClient } = require("mongodb");
-const { MONGO_URI } = require("./.env");
+
+const { MONGO_URI, API_KEY } = process.env;
+
 const client = new MongoClient(MONGO_URI);
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
@@ -11,10 +14,34 @@ const PORT = process.env.PORT || 3000;
 const chats = require("./js/home.js");
 const database = client.db("chatlingo");
 const messagesCollection = database.collection("messages");
+const bcrypt = require("bcrypt");
+const xss = require("xss");
+
+console.log(`API Key: ${API_KEY}`);
+
+const os = require("os");
+const interfaces = os.networkInterfaces();
+const addresses = [];
+
+Object.keys(interfaces).forEach((interfaceName) => {
+  interfaces[interfaceName].forEach((interfaceInfo) => {
+    if (interfaceInfo.family === "IPv4" && !interfaceInfo.internal) {
+      addresses.push(interfaceInfo.address);
+    }
+  });
+});
+
+console.log(`Server IP address: ${addresses[0]}`);
 
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const MemoryStore = require("memorystore")(session); //https://www.npmjs.com/package/memorystore
+const MemoryStore = require("memorystore")(session);
+const checkSession = (req, res, next) => {
+  if (!req.session.username) {
+    return res.redirect("/login");
+  }
+  next();
+};
 
 app.use("/static", express.static("static"));
 app.use("/js", express.static("js"));
@@ -26,7 +53,7 @@ app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const sessionMiddleware = session({ //https://medium.com/@alysachan830/cookie-and-session-ii-how-session-works-in-express-session-7e08d102deb8
+const sessionMiddleware = session({
   secret: "geheim-woord",
   resave: false,
   saveUninitialized: true,
@@ -35,13 +62,6 @@ const sessionMiddleware = session({ //https://medium.com/@alysachan830/cookie-an
 });
 
 app.use(sessionMiddleware);
-
-const checkSession = (req, res, next) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
-  next();
-};
 
 app.get("/login", function (req, res) {
   res.render("login", { title: "login" });
@@ -56,7 +76,12 @@ app.post("/login", async (req, res) => {
 
   const user = await usersCollection.findOne({ username });
 
-  if (!user || user.password !== password) {
+  if (!user) {
+    return res.status(401).send("Ongeldige gebruikersnaam of wachtwoord.");
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  if (!isPasswordCorrect) {
     return res.status(401).send("Ongeldige gebruikersnaam of wachtwoord.");
   }
 
@@ -66,35 +91,86 @@ app.post("/login", async (req, res) => {
   return res.redirect(loggedInUrl);
 });
 
-app.get("/", checkSession, function (req, res) {  
+app.get("/", checkSession, async function (req, res) {
   const username = req.session.username || "";
   console.log("Huidige gebruikersnaam:", username);
-  res.render("home", { username: username, chats: chats, title: "Homepage" });
+
+  const updatedChats = await Promise.all(
+    chats.map(async (chat) => {
+      const unreadMessageCount = await getUnreadMessageCount(
+        chat.chatName,
+        username
+      );
+      return { ...chat, newMessageCount: unreadMessageCount };
+    })
+  );
+
+  res.render("home", {
+    username: username,
+    chats: updatedChats,
+    title: "Homepage",
+  });
 });
 
-app.get("/chat/:chatName", checkSession, (req, res) => {
+app.get("/chat/:chatName", checkSession, async (req, res) => {
   const username = req.session.username || "";
   const chatName = req.params.chatName;
+
+  await messagesCollection.updateMany(
+    { chatName, sender: { $ne: username }, read: false },
+    { $set: { read: true } }
+  );
+
+  const updatedChats = chats.map((chat) => {
+    if (chat.chatName === chatName) {
+      return { ...chat, newMessageCount: 0 };
+    } else {
+      return chat;
+    }
+  });
+
   res.render("chat", {
     layout: false,
     messages: [],
     username: username,
     chatName: chatName,
+    chats: updatedChats,
   });
 });
 
 app.post("/chat/:chatName/message", checkSession, async (req, res) => {
   const chatName = req.params.chatName;
   const sender = req.session.username;
-  const messageContent = req.body.message;
+  const messageContent = xss(req.body.message);
 
-  await messagesCollection.insertOne({ chatName, sender, content: messageContent });
+  await messagesCollection.insertOne({
+    chatName,
+    sender,
+    content: messageContent,
+    read: false,
+  });
 
-  io.to(chatName).emit("message", { chatName, sender, content: messageContent });
+  io.to(chatName).emit("message", {
+    chatName,
+    sender,
+    content: messageContent,
+  });
 
   res.redirect(`/chat/${chatName}`);
 });
 
+app.use(function (req, res) {
+  res.status(404).render("404", { title: "404 Not Found :(" });
+});
+
+async function getUnreadMessageCount(chatName, loggedInUser) {
+  const unreadMessages = await messagesCollection.countDocuments({
+    chatName,
+    sender: { $ne: loggedInUser },
+    read: false,
+  });
+  return unreadMessages;
+}
 
 async function run() {
   try {
@@ -132,12 +208,17 @@ async function run() {
 
       socket.on("message", async (msg) => {
         const sender = socket.request.session.username;
-        const timestamp = Date.now(); 
-        await messagesCollection.insertOne({ ...msg, chatName, sender, timestamp });
+        const timestamp = Date.now();
+        await messagesCollection.insertOne({
+          ...msg,
+          chatName,
+          sender,
+          timestamp,
+          read: false,
+        });
         io.to(chatName).emit("message", { ...msg, sender, timestamp });
         console.log(`Message toegevoegd aan MongoDB: ${msg}`);
       });
-      
     });
   } catch (err) {
     console.log(err);
@@ -145,7 +226,9 @@ async function run() {
     // await client.close();
   }
 }
+
 run();
+
 http.listen(PORT, () => {
   console.log(`Server gestart op poort ${PORT}`);
 });

@@ -5,7 +5,7 @@ const socket = io();
 const fallbackMessage = document.querySelector(".fallback-message");
 let username;
 
-document.getElementById("input-form").addEventListener("submit", function(e) {
+document.getElementById("input-form").addEventListener("submit", function (e) {
   e.preventDefault();
 });
 
@@ -61,7 +61,9 @@ function displayMessage(message, isSocketMessage = true) {
 
   const usernameElement = document.createElement("p");
   usernameElement.classList.add(addUsername(message.sender));
-  usernameElement.textContent = `${message.sender} - ${getFormattedTimestamp(message.timestamp)}`;
+  usernameElement.textContent = `${message.sender} - ${getFormattedTimestamp(
+    message.timestamp
+  )}`;
   chatBox.appendChild(usernameElement); // Voeg de username boven de chat bubble toe
 
   newChatBubble.textContent = message.content;

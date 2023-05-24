@@ -2,8 +2,7 @@
 const chats = [
   {
     chatName: "Mandarin",
-    profilePicture:
-      "https://ns.st-digital.net/wp-coantent/uploads/2023/03/Tekengebied-77.png",
+    profilePicture: "/static/images/profile1.png",
     newMessageCount: 2,
     lastMessage: "你好!",
   },
