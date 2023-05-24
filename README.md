@@ -2,6 +2,8 @@
 With ChatLingo, you can log in and join specific language-based chats, such as Spanish or Mandarin. Within these chats, you have the opportunity to engage in conversations with other users, fostering a collaborative environment for language learning. Whether it's asking questions, engaging in casual conversations, or providing assistance, ChatLingo allows you to interact with fellow language enthusiasts, creating an enjoyable and supportive space to improve your language skills.
 
 # Preview app
+https://youtu.be/38kuqKCZ044
+
 
 # How to install ChatLingo
 > 1. git clone https://github.com/D0nnaz/Blok-tech.git
@@ -67,8 +69,9 @@ This code sets up the real-time message display functionality. It registers an e
 This code receives the chat history from the server using Socket.IO on the client-side. It listens for the "chatHistory" event and expects the chat history data as the payload. You can implement the logic to display the chat history in the chat interface based on the received data.
 
 # More info?
-Check the wiki
-https://github.com/D0nnaz/blok-tech-wiki/wiki
+Check the wiki:
+[https://github.com/D0nnaz/blok-tech-wiki/wiki](https://github.com/D0nnaz/Blok-tech/wiki)
+### Note: the wiki is in Dutch!
 
 
 ## License
