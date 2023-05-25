@@ -6,7 +6,7 @@ Desktop:<br>
 https://youtu.be/38kuqKCZ044
 
 Phone:<br>
-https://youtube.com/shorts/rxlEhegzNto?feature=share
+[https://youtube.com/shorts/rxlEhegzNto?feature=share](https://youtu.be/gas0k5bhd7A)
 
 
 # How to install ChatLingo
