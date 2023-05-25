@@ -1,4 +1,4 @@
-/* HOME */
+/* GENERAL */
 html {
   list-style-type: none;
   box-sizing: border-box;
@@ -28,6 +28,8 @@ h2 {
 a {
   text-decoration: none;
 }
+
+/* HOMEPAGE */
 
 .header-right img {
   width: 70px;
@@ -428,6 +430,7 @@ a {
   font-size: 4em;
 }
 
+/* MEDIA QUERY VOOR 404 */
 @media (max-width: 1000px) {
   .hello h1 {
     font-size: 15em;
@@ -446,6 +449,10 @@ a {
 
   .hello button {
     font-size: 40px;
+  }
+
+  .hello a {
+    font-size: 30px;
   }
 }
 
@@ -514,10 +521,8 @@ a {
   display: flex;
   flex-direction: column;
   width: 90%;
-  /* Aangepast naar een percentage van de beschikbare ruimte */
   max-width: 500px;
   margin: 0 auto;
-  /* Gecentreerd op de pagina */
 }
 
 .inlog .inlog label {
