@@ -111,9 +111,9 @@ app.get("/", checkSession, async function (req, res) {
         chat.chatName,
         username
       );
-      return { ...chat, newMessageCount: unreadMessageCount };
+      return { ...chat, newMessageCount: unreadMessageCount };   
     })
-  );
+  ); 
 
   res.render("home", {
     username: username,

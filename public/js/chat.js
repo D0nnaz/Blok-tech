@@ -1,3 +1,4 @@
+/* global io */ 
 const inputField = document.querySelector(".input-field");
 const sendButton = document.querySelector(".send-button");
 const chatBox = document.querySelector(".chat-box");
