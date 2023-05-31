@@ -4,7 +4,6 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const { engine } = require("express-handlebars");
-const { MongoClient } = require("mongodb");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const session = require("express-session");
@@ -15,6 +14,7 @@ const router = require("./controller/router.js");
 // Port waarop de server draait
 const PORT = process.env.PORT || 3000;
 
+const { MongoClient } = require("mongodb");
 const { MONGO_URI, API_KEY } = process.env;
 const client = new MongoClient(MONGO_URI);
 const database = client.db("chatlingo");
@@ -113,8 +113,6 @@ async function run() {
     });
   } catch (err) {
     console.log(err);
-  } finally {
-    // await client.close();
   }
 }
 
@@ -128,3 +126,4 @@ http.listen(PORT, () => {
 //https://hackernoon.com/build-a-chat-room-with-socketio-and-express
 //chatGPT
 //Sample code MongoDB
+// Documentatie van de gebruikte modules

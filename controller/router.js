@@ -8,20 +8,21 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const xss = require("xss");
 const chats = require("../public/js/home.js");
+const { MongoClient } = require("mongodb");
+const { MONGO_URI } = process.env;
+const client = new MongoClient(MONGO_URI);
+const database = client.db("chatlingo");
 
 const user = new User();
 
 // Functie om het aantal ongelezen berichten voor een gegeven gebruiker op te halen
-async function getUnreadMessageCount(username) {
+async function getUnreadMessageCount(chatName, loggedInUser) {
   try {
-    const messagesCollection = await getMessagesCollection();
-
-    if (!messagesCollection) {
-      return 0;
-    }
+    const messagesCollection = database.collection("messages");
 
     const unreadMessages = await messagesCollection.countDocuments({
-      receiver: username,
+      chatName,
+      sender: { $ne: loggedInUser },
       read: false,
     });
 
