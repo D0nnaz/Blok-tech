@@ -1,217 +1,80 @@
-// Vereiste modules importeren
-require("dotenv").config(); // Laadt de omgevingsvariabelen uit het .env-bestand
+// server.js
+// Importeren van benodigde modules
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const { engine } = require("express-handlebars"); // View-engine voor het renderen van handlebars-templates
-const { MongoClient } = require("mongodb"); // MongoDB-client voor database-interactie
-
-// Omgevingsvariabelen ophalen
-const { MONGO_URI } = process.env;
-
-// MongoDB-client initialiseren
-const client = new MongoClient(MONGO_URI);
-
-// HTTP-server initialiseren
+const { engine } = require("express-handlebars");
+const { MongoClient } = require("mongodb");
 const http = require("http").createServer(app);
-
-// Socket.IO initialiseren voor real-time communicatie
 const io = require("socket.io")(http);
-
-// Poortconfiguratie
-const PORT = process.env.PORT || 3000;
-
-// Chats importeren
-const chats = require("./public/js/home");
-
-// MongoDB-database en -collectie instellen
-const database = client.db("chatlingo");
-const messagesCollection = database.collection("messages");
-
-// Vereiste modules importeren
-const bcrypt = require("bcrypt"); // Voor het hashen en vergelijken van wachtwoorden
-const xss = require("xss"); // Voor het beveiligen van invoer tegen cross-site scripting (XSS) aanvallen
-
-// Sessieconfiguratie
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MemoryStore = require("memorystore")(session);
+const router = require("./controller/router.js");
 
-// Middleware voor het controleren van de sessie
-const checkSession = (req, res, next) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
-  next();
-};
+// Port waarop de server draait
+const PORT = process.env.PORT || 3000;
 
-// Statische bestanden en handlebars-engine instellen
+const { MONGO_URI, API_KEY } = process.env;
+const client = new MongoClient(MONGO_URI);
+const database = client.db("chatlingo");
+const messagesCollection = database.collection("messages");
+
+// Statische bestanden
 app.use("/static", express.static("static"));
 app.use(express.static("public"));
 app.use("/js", express.static("public/js"));
+
+// Handlebars als template-engine instellen
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-// Middleware voor het parseren van formuliergegevens en cookies
+// Route voor het verkrijgen van de API-sleutel
+app.get("/api/api-key", (req, res) => {
+  res.json({ apiKey: API_KEY });
+});
+
+// Middleware voor het verwerken van URL-gecodeerde gegevens en cookies
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Sessiemiddleware instellen
 const sessionMiddleware = session({
-  secret: "geheim-woord", // Geheime sleutel voor sessie-encryptie
+  secret: "sgdvFT37QV178E2BIFUDQIWNF87F2H398FINOd",
   resave: false,
   saveUninitialized: true,
-  store: new MemoryStore(), // Sessie-opslag in het geheugen
+  store: new MemoryStore(),
   cookie: { secure: false },
 });
 app.use(sessionMiddleware);
+app.use(router);
 
-// Inlogpagina weergeven
-app.get("/login", function (req, res) {
-  res.render("login", { title: "login", bodyClass: "inlogbody" });
-});
-
-// Inloggegevens controleren
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  // Verbinding maken met de MongoDB-database
-  await client.connect();
-  const database = client.db("chatlingo");
-  const usersCollection = database.collection("users");
-
-  // Gebruiker opzoeken in de database
-  const user = await usersCollection.findOne({ username });
-
-  // Controleren of gebruiker bestaat en wachtwoord overeenkomt
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    // Ongeldige gebruikersnaam of wachtwoord
-    return res.render("login", {
-      error: "Invalid username or password.",
-      bodyClass: "error-body",
-    });
-  }
-
-  // Sessie instellen voor de ingelogde gebruiker
-  req.session.username = username;
-
-  const loggedInUrl = "/";
-  return res.redirect(loggedInUrl);
-});
-
-// Homepage weergeven
-app.get("/", checkSession, async function (req, res) {
-  const username = req.session.username || "";
-  console.log("Huidige gebruikersnaam:", username);
-
-  // Aantal ongelezen berichten ophalen voor elke chat
-  const updatedChats = await Promise.all(
-    chats.map(async (chat) => {
-      const unreadMessageCount = await getUnreadMessageCount(
-        chat.chatName,
-        username
-      );
-      return { ...chat, newMessageCount: unreadMessageCount };   
-    })
-  ); 
-
-  res.render("home", {
-    username: username,
-    chats: updatedChats,
-    title: "Homepage",
-  });
-});
-
-// Chatpagina weergeven
-app.get("/chat/:chatName", checkSession, async (req, res) => {
-  const username = req.session.username || "";
-  const chatName = req.params.chatName;
-  const chat = chats.find((c) => c.chatName === chatName);
-
-  // Alle ongelezen berichten in de huidige chat markeren als gelezen
-  await messagesCollection.updateMany(
-    { chatName, sender: { $ne: username }, read: false },
-    { $set: { read: true } }
-  );
-
-  // Aantal nieuwe berichten in de chat op nul zetten
-  const updatedChats = chats.map((chat) => {
-    if (chat.chatName === chatName) {
-      return { ...chat, newMessageCount: 0 };
-    } else {
-      return chat;
-    }
-  });
-
-  res.render("chat", {
-    layout: false,
-    messages: [],
-    username: username,
-    chatName: chatName,
-    chats: updatedChats,
-    profilePicture: chat.profilePicture,
-  });
-});
-
-// Nieuw bericht verzenden in de chat
-app.post("/chat/:chatName/message", checkSession, async (req, res) => {
-  const chatName = req.params.chatName;
-  const sender = req.session.username;
-  const messageContent = xss(req.body.message);
-
-  // Nieuw bericht toevoegen aan de MongoDB-database
-  await messagesCollection.insertOne({
-    chatName,
-    sender,
-    content: messageContent,
-    read: false,
-  });
-
-  // Bericht verzenden naar alle gebruikers in de chat via Socket.IO
-  io.to(chatName).emit("message", {
-    chatName,
-    sender,
-    content: messageContent,
-  });
-
-  res.redirect(`/chat/${chatName}`);
-});
-
-// 404-pagina weergeven voor onbekende routes
-app.use(function (req, res) {
-  res.status(404).render("404", { title: "404 Not Found :(" });
-});
-
-// Functie om het aantal ongelezen berichten op te halen
-async function getUnreadMessageCount(chatName, loggedInUser) {
-  const unreadMessages = await messagesCollection.countDocuments({
-    chatName,
-    sender: { $ne: loggedInUser },
-    read: false,
-  });
-  return unreadMessages;
-}
-
-// Start de server en Socket.IO-verbinding
+// Functie om de server uit te voeren
 async function run() {
+  const client = new MongoClient(MONGO_URI);
+
   try {
+    // Verbinding maken met de MongoDB-database
     await client.connect();
 
     console.log("MONGODB IS HIER YUH :)");
 
-    // Middleware voor het delen van sessies met Socket.IO
+    // Middleware voor het instellen van sessie op socket.io-verbinding
     io.use((socket, next) => {
       sessionMiddleware(socket.request, {}, next);
     });
 
-    // Socket.IO verbinding
+    // Event handler voor nieuwe socket.io-verbindingen
     io.on("connection", async (socket) => {
+      // Naam van de chat ophalen uit de referer header
       const chatName = socket.handshake.headers.referer.split("/").pop();
       console.log(
         `User ${socket.request.session.username} connected in ${chatName}`
       );
       socket.join(chatName);
 
+      // Controleren of de gebruiker is ingelogd
       if (socket.request.session && socket.request.session.username) {
         const loggedInUser = socket.request.session.username;
         console.log(`User ${loggedInUser} is ingelogd`);
@@ -220,6 +83,7 @@ async function run() {
         console.log("Er is niet ingelogd");
       }
 
+      // Event handler voor het verbreken van de verbinding
       socket.on("disconnect", () => {
         console.log(
           `User ${socket.request.session.username} disconnected from ${chatName}`
@@ -244,7 +108,7 @@ async function run() {
 
         // Bericht verzenden naar alle gebruikers in de chat via Socket.IO
         io.to(chatName).emit("message", { ...msg, sender, timestamp });
-        console.log(`Message toegevoegd aan MongoDB: ${msg}`);
+        console.log(`Message toegevoegd aan MongoDB: ${msg.content}`);
       });
     });
   } catch (err) {
@@ -259,3 +123,8 @@ run();
 http.listen(PORT, () => {
   console.log(`Server gestart op poort ${PORT}`);
 });
+
+// https://socket.io/docs/v4/
+//https://hackernoon.com/build-a-chat-room-with-socketio-and-express
+//chatGPT
+//Sample code MongoDB

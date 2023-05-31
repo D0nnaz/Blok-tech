@@ -1,5 +1,6 @@
-require("dotenv").config();
+require("dotenv").config(); // Laad omgevingsvariabelen uit het .env-bestand
 
 module.exports = {
-  MONGO_URI: process.env.MONGO_URI,
+  MONGO_URI: process.env.MONGO_URI, // MongoDB-verbinding URI
+  API_KEY: process.env.API_KEY, // API-sleutel
 };

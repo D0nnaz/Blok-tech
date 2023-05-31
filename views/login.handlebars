@@ -11,9 +11,9 @@
 <body class="{{#if bodyClass}}{{bodyClass}}{{/if}}">
   <h1>Login Page</h1>
   {{#if error}}
-  <div class="error-message">
-    <span>{{error}}</span>
-  </div>
+  <section class="error-message">
+    <p>{{error}}</p>
+  </section>
   {{/if}}
   <form id="login-form" method="POST" action="/login">
     <label for="username">Username:</label>

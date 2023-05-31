@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-
+{{!-- DIVJES ZIJN GEBRUIKT VOOR VORMGEVING!!! --}}
 <body>
   <header>
     <h2 class="header-left">
@@ -21,30 +21,28 @@
   <div class="round-top"></div>
   {{#each chats}}
   <a id="chatName" href="/chat/{{this.chatName}}">
-    <div class="chat-container">
+    <section class="chat-container">
       <div class="chat">
-        <div class="chat-left">
+        <section class="chat-left">
           <div class="profile-status-container">
-            {{!-- <div class="status-indicator"></div> --}}
-            <div class="profile-picture-container">
+            <section class="profile-picture-container">
               <img src="{{this.profilePicture}}" alt="Profile Picture" />
-            </div>
+            </section>
           </div>
-        </div>
-        <div class="chat-right">
-          <div class="chat-header">
+        </section>
+        <section class="chat-right">
+          <section class="chat-header">
             <div class="chat-name">{{this.chatName}}</div>
             <div class="new-message-indicator">{{this.newMessageCount}}</div>
-          </div>
+          </section>
           <div class="chat-last-message">{{this.lastMessage}}</div>
-        </div>
+        </section>
       </div>
-    </div>
+    </section>
   </a>
   {{/each}}
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/home.js"></script>
-  <script src="/js/chat.js"></script>
 </body>
 
 </html>

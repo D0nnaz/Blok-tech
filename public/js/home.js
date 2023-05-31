@@ -15,6 +15,13 @@ const chats = [
     lastMessage: "¿Cómo estás?",
   },
   {
+    chatName: "Greek",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/commons/d/d2/Flag_of_Greece_and_Cyprus.svg",
+    newMessageCount: 1,
+    lastMessage: "Τι κάνεις;",
+  },
+  {
     chatName: "Hindi",
     profilePicture:
       "https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg",

@@ -12,7 +12,6 @@
   <header>
     <div class="profile-status-container">
       <a href="/" class="back">← Back</a>
-      {{!-- <div class="status-indicator"></div> --}}
       <div class="profile-picture-container">
         <img src="{{profilePicture}}" alt="Profile Picture" />
       </div>
@@ -28,7 +27,7 @@
     <img src="https://i.kym-cdn.com/entries/icons/mobile/000/018/259/55181940.jpg">
   </section>
 
-  <div class="chat-box">
+  <section class="chat-box">
     {{#each messages}}
     {{#if (isRightBubble this)}}
     <div class="chat-bubble right-bubble">{{this.content}}</div>
@@ -36,17 +35,23 @@
     <div class="chat-bubble left-bubble">{{this.content}}</div>
     {{/if}}
     {{/each}}
-  </div>
+  </section>
+  
+    <section class="gifHide">
+      <input type="text" id="searchInput" placeholder="GIF" autocomplete="off"/>
+  <button class="searchGif">Search</button>
+      <div id="gifContainer" class="gif-container"></div>
+    </section>
 
   <div class="input-bar">
+    <button class="gif-button">GIF</button>
     <form id="input-form" action="/chat/{{chatName}}/message" method="POST">
       <input type="text" class="input-field" id="message-input" placeholder="Type a message..."
         aria-label="Type hier uw bericht" name="message" autocomplete="off" />
 
-      <button class="send-button" type="submit">Send</button> <!-- type-attribuut gewijzigd naar "submit" -->
+      <button class="send-button" type="submit">Send</button>
     </form>
   </div>
-
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/chat.js"></script>
 </body>

@@ -154,7 +154,7 @@ a {
   background-color: #fff7df;
   position: fixed;
   top: 0;
-  width: 99%;
+  width: 100%;
   z-index: 0;
   height: 8em;
   border-radius: 0 0 50px 50px;
@@ -211,7 +211,6 @@ a {
   display: flex;
   flex-direction: column;
   top: 2em;
-  overflow-y: scroll;
   padding-bottom: 8em;
   margin-top: 8em;
   z-index: -10;
@@ -347,6 +346,113 @@ a {
   color: #a86246;
 }
 
+/* GIF STYLING */
+
+.gif-bubble {
+  display: inline-block;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.gif-bubble img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.sent-gif {
+  cursor: default;
+}
+
+.gif-menu {
+  display: none;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 200px;
+}
+
+.gifHide {
+  display: none;
+}
+
+.showInput {
+  display: block;
+  position: fixed;
+  bottom: 5em;
+}
+
+
+.gif-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-y: auto;
+  max-height: 300px;
+  position: fixed;
+  bottom: 2em;
+  max-width: 30em;
+}
+
+.gif-container img {
+  width: calc(50% - 5px);
+  height: auto;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  border-radius: 10px;
+}
+
+.gif-container img:nth-child(2n) {
+  margin-right: 0;
+}
+
+.gif-button {
+  background-color: #140702;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+#searchInput {
+  background-color: #fff7df;
+  height: 4em;
+  border-radius: 10px;
+  border: none;
+  width: 54%;
+  transform: translate(1em, -2em);
+}
+
+.searchGif {
+  background-color: #fff7df;
+  color: #140702;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transform: translate(1em, -2em);
+}
+
+#searchInput.active {
+  transform: translate(1em, -19em);
+  transition: 0.1s;
+}
+
+.searchGif.active {
+  transform: translate(1em, -16em);
+  transition: 0.1s;
+}
+
 /* 404 ERROR PAGE */
 
 .hello {
@@ -364,7 +470,7 @@ a {
   height: 100vh;
   margin: 0 auto;
   text-align: center;
-  background-image: url("/static/images/lionel.png");
+  background-image: url("/static/images/lionel.png");/* https: //open.spotify.com/album/5R8J87WpdqO4t4pB4F4LNJ | Foto van het album + wat PhotoShop werk van mij*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -501,8 +607,6 @@ a {
 
 /* INLOG */
 
-
-/* style.css */
 .inlog h1 {
   font-size: 45px;
   margin-top: 50px;
@@ -685,3 +789,4 @@ header {
   animation: fallbackMessageAnimation 0.5s ease-in-out both;
   opacity: 0;
 }
+
