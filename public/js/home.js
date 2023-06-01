@@ -56,12 +56,5 @@ const chats = [
     newMessageCount: 0,
     lastMessage: "привет!",
   },
-  {
-    chatName: "Testroom",
-    profilePicture:
-      "https://cdn-eu.purposegames.com/images/game/bg/96/ZYdKhTOijhE.png?s=1400",
-    newMessageCount: 0,
-    lastMessage: "Hello!",
-  },
 ];
 module.exports = chats;
