@@ -8,7 +8,6 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const MemoryStore = require("memorystore")(session);
 const router = require("./controller/router.js");
 
 // Port waarop de server draait
@@ -44,7 +43,6 @@ const sessionMiddleware = session({
   secret: "sgdvFT37QV178E2BIFUDQIWNF87F2H398FINOd",
   resave: false,
   saveUninitialized: true,
-  store: new MemoryStore(),
   cookie: { secure: false },
 });
 app.use(sessionMiddleware);
@@ -52,8 +50,6 @@ app.use(router);
 
 // Functie om de server uit te voeren
 async function run() {
-  const client = new MongoClient(MONGO_URI);
-
   try {
     // Verbinding maken met de MongoDB-database
     await client.connect();

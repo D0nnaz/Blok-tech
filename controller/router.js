@@ -12,7 +12,6 @@ const { MongoClient } = require("mongodb");
 const { MONGO_URI } = process.env;
 const client = new MongoClient(MONGO_URI);
 const database = client.db("chatlingo");
-
 const user = new User();
 
 // Functie om het aantal ongelezen berichten voor een gegeven gebruiker op te halen
@@ -35,7 +34,7 @@ async function getUnreadMessageCount(chatName, loggedInUser) {
 
 // Login-route - rendert de inlogpagina
 router.get("/login", function (req, res) {
-  res.render("login", { title: "login", bodyClass: "inlogbody" });
+  res.render("login", { title: "Login ChatLingo", bodyClass: "inlogbody" });
 });
 
 // Login-route - verwerkt het formulier en authenticatie
@@ -46,7 +45,7 @@ router.post("/login", async (req, res) => {
 
   if (!isAuthenticated) {
     return res.render("login", {
-      error: "Ongeldige gebruikersnaam of wachtwoord.",
+      error: "Invalid username or password.",
       bodyClass: "error-body",
     });
   }
@@ -59,10 +58,11 @@ router.post("/login", async (req, res) => {
 
 // Homepage-route - rendert de homepagina met bijgewerkte chatinformatie
 router.get("/", checkSession, async function (req, res) {
-  const username = req.session.username || "";
+  const username = req.session.username;
   console.log("Huidige gebruikersnaam:", username);
 
   const updatedChats = await Promise.all(
+    // Wacht tot alle taken (promises) zijn voltooid en retourneer de resultaten als een array
     chats.map(async (chat) => {
       const unreadMessageCount = await getUnreadMessageCount(
         chat.chatName,
@@ -75,7 +75,7 @@ router.get("/", checkSession, async function (req, res) {
   res.render("home", {
     username: username,
     chats: updatedChats,
-    title: "Homepage",
+    title: "ChatLingo",
   });
 });
 
@@ -93,6 +93,7 @@ router.get("/chat/:chatName", checkSession, async (req, res) => {
   );
 
   const updatedChats = chats.map((chat) => {
+    //map -> nieuwe array door elk element van de originele array te transformeren
     if (chat.chatName === chatName) {
       return { ...chat, newMessageCount: 0 };
     } else {
@@ -101,12 +102,11 @@ router.get("/chat/:chatName", checkSession, async (req, res) => {
   });
 
   res.render("chat", {
-    layout: false,
-    messages: [],
     username: username,
     chatName: chatName,
     chats: updatedChats,
     profilePicture: chat ? chat.profilePicture : "",
+    title: `ChatLingo ${chatName}`,
   });
 });
 
@@ -136,7 +136,7 @@ router.post("/chat/:chatName/message", checkSession, async (req, res) => {
 
 // 404-pagina weergeven voor onbekende routes
 router.use(function (req, res) {
-  res.status(404).render("404", { title: "404 Niet gevonden :(" });
+  res.status(404).render("404", { title: "404 NOT FOUND :(" });
 });
 
 module.exports = router;

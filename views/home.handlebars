@@ -1,11 +1,5 @@
 <html>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Chats page</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
 {{!-- DIVJES ZIJN GEBRUIKT VOOR VORMGEVING!!! --}}
 <body>
   <header>
@@ -20,7 +14,7 @@
   </header>
   <div class="round-top"></div>
   {{#each chats}}
-  <a id="chatName" href="/chat/{{this.chatName}}">
+  <a class="chatName" href="/chat/{{this.chatName}}">
     <section class="chat-container">
       <div class="chat">
         <section class="chat-left">

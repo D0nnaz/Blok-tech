@@ -92,7 +92,7 @@ function sendMessage(messageType, gifUrl = null) {
 function displayMessage(message, isSocketMessage = true) {
   if (
     isSocketMessage &&
-    (typeof message.content !== "string" || message.content.trim() === "")
+    (message.content.trim() === "")
   ) {
     return;
   }
@@ -152,7 +152,7 @@ function addUsername(sender) {
 }
 
 // Functie om de timestamp te formatteren.
-function getFormattedTimestamp(timestamp) {
+function getFormattedTimestamp(timestamp) {  //https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript/46970951#46970951
   const date = new Date(timestamp);
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");

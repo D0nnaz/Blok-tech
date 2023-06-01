@@ -53,25 +53,6 @@ class User {
     }
   }
 
-  // Methode om een gebruiker op te halen op basis van de gebruikersnaam
-  async getUser(username) {
-    try {
-      await this.client.connect();
-      const database = this.client.db("chatlingo");
-      const usersCollection = database.collection("users");
-
-      // Het opzoeken van de gebruiker in de database
-      const user = await usersCollection.findOne({ username });
-
-      return user;
-    } catch (error) {
-      console.log(error);
-      return null;
-    } finally {
-      await this.client.close();
-    }
-  }
-
   // Methode om een bericht toe te voegen aan de database
   async addMessage(chatName, messageContent, sender, timestamp) {
     try {
