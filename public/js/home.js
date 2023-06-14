@@ -56,5 +56,12 @@ const chats = [
     newMessageCount: 0,
     lastMessage: "привет!",
   },
+  {
+    chatName: "Rosalie",
+    profilePicture:
+      "https://upload.wikimedia.org/wikipedia/commons/d/d6/Russian_language_flag.svg",
+    newMessageCount: 0,
+    lastMessage: "привет!",
+  },
 ];
 module.exports = chats;

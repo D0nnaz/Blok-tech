@@ -118,8 +118,3 @@ http.listen(PORT, () => {
   console.log(`Server gestart op poort ${PORT}`);
 });
 
-// https://socket.io/docs/v4/
-//https://hackernoon.com/build-a-chat-room-with-socketio-and-express
-//chatGPT
-//Sample code MongoDB
-// Documentatie van de gebruikte modules
